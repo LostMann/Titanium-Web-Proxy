@@ -86,6 +86,14 @@ namespace Titanium.Web.Proxy
                         if (sslStream != null)
                             sslStream.Dispose();
 
+                        if (httpVerb.ToUpper() == "CONNECT")
+                            httpRemoteUri = new Uri("http://" + httpCmdSplit[1]);
+                        else
+                            httpRemoteUri = new Uri(httpCmdSplit[1]);
+
+                        TcpHelper.SendRaw(clientStream, null, null, httpRemoteUri.Host, httpRemoteUri.Port,
+                            false);
+
                         Dispose(client, clientStream, clientStreamReader, clientStreamWriter, null);
                         return;
                     }
